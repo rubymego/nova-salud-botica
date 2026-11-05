@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B2A6B">
+  <meta name="botica-ruc" content="20100070970">
+  <meta name="botica-direccion" content="Jr. Dos de Mayo N.º 456">
+  <meta name="botica-ciudad" content="Huánuco">
+  <meta name="botica-departamento" content="Huánuco">
+  <meta name="botica-pais" content="Perú">
+  <title>Nova Salud | Gestión de botica</title>
+  <link rel="icon" type="image/jpeg" href="/img/logo.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main id="login-view" class="login-screen">
+    <section class="login-panel">
+      <img class="login-logo" src="/img/logo.jpeg" alt="Botica Nova Salud, Tu salud, nuestra prioridad">
+      <p class="eyebrow">BOTICA · GESTIÓN DIARIA</p>
+      <h1>Nova Salud</h1>
+      <p class="muted">Acceso al sistema de inventario y ventas</p>
+      <form id="login-form" class="stack-form">
+        <label>Usuario<input name="usuario" autocomplete="username" required></label>
+        <label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="button primary full" type="submit">Ingresar</button>
+        <p id="login-error" class="form-error" role="alert"></p>
+      </form>
+    </section>
+    <aside class="login-art" aria-label="Atención y cuidado en Nova Salud">
+      <div class="art-copy"><span>Atención ágil,</span><strong>cuidado cercano.</strong><p>El stock claro y actualizado ayuda a que cada persona encuentre lo que necesita.</p><div class="art-highlights"><div><span aria-hidden="true">◷</span><small>Stock en tiempo real</small></div><div><span aria-hidden="true">!</span><small>Alertas de reposición</small></div><div><span aria-hidden="true">↗</span><small>Ventas rápidas</small></div></div></div>
+      <span class="art-cross" aria-hidden="true"></span>
+      <div class="art-pills"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </aside>
+  </main>
+
+  <div id="app-view" class="app-shell hidden">
+    <aside class="sidebar">
+      <a class="sidebar-brand" href="#inicio" aria-label="Nova Salud inicio"><img class="sidebar-logo" src="/img/logo.jpeg" alt=""><span>Nova Salud<small>Gestión de botica</small></span></a>
+      <nav id="main-nav" class="main-nav" aria-label="Navegación principal">
+        <button class="nav-link active" data-view="inicio"><span class="nav-icon">⌂</span> Dashboard</button>
+        <button class="nav-link active" data-view="ventas"><span class="nav-icon">▣</span> Nueva venta</button>
+        <button class="nav-link" data-view="historial"><span class="nav-icon">▧</span> Ventas</button>
+        <button class="nav-link" data-view="inventario"><span class="nav-icon">▤</span> Inventario <b id="alert-badge" class="badge hidden">0</b></button>
+        <button class="nav-link" data-view="clientes"><span class="nav-icon">♙</span> Clientes</button>
+        <button class="nav-link admin-only" data-view="compras"><span class="nav-icon">⇧</span> Compras</button>
+        <button class="nav-link admin-only" data-view="proveedores"><span class="nav-icon">⌂</span> Proveedores</button>
+        <button class="nav-link admin-only" data-view="reportes"><span class="nav-icon">▥</span> Reportes</button>
+        <button class="nav-link admin-only" data-view="usuarios"><span class="nav-icon">♧</span> Usuarios</button>
+      </nav>
+      <div class="sidebar-bottom"><span class="live-dot"></span> Sistema operativo</div>
+    </aside>
+    <section class="workspace">
+      <header class="topbar">
+        <div class="topbar-copy"><p class="eyebrow" id="today-label">NOVA SALUD</p><h2 id="welcome-message"><span id="welcome-greeting">Hola, buenas noches,</span> <strong id="welcome-name">RUBY</strong><span id="welcome-word">. Bienvenida</span></h2><p id="page-title" class="page-context">Nueva venta</p></div>
+        <div class="user-area"><button id="alerts-button" class="icon-button" title="Ver alertas" aria-label="Ver alertas">♢<b id="top-alert-badge" class="notification-dot hidden"></b></button><span class="user-avatar" id="user-initials">NS</span><span class="user-label"><b id="user-name">Usuario</b><small id="user-role">Vendedor</small></span><button id="logout-button" class="button ghost small-button" type="button">Salir</button></div>
+      </header>
+      <div id="toast" class="toast hidden" role="status"></div>
+      <section id="view-inicio" class="view active-view">
+        <div class="dashboard-heading"><div><p class="eyebrow">PANEL PERSONAL</p><h3 id="dashboard-title">Resumen del día</h3><p id="dashboard-caption">Un vistazo rápido a la actividad de Nova Salud.</p></div><button class="button primary" data-go-view="ventas" type="button">Iniciar una venta <span>→</span></button></div>
+        <div id="dashboard-cards" class="dashboard-cards"></div>
+        <section id="dashboard-chart-panel" class="dashboard-chart-panel admin-only hidden" aria-labelledby="dashboard-chart-title"><div class="dashboard-chart-heading"><div><p class="eyebrow">TENDENCIA DE VENTAS</p><h3 id="dashboard-chart-title">Ingresos de los últimos 7 días</h3></div><strong id="dashboard-chart-total">S/ 0.00</strong></div><div id="dashboard-chart" class="dashboard-chart"></div></section>
+        <div class="dashboard-lower"><section class="dashboard-alerts"><div class="dashboard-subheading"><div><p class="eyebrow">INVENTARIO</p><h4>Atención pendiente</h4></div><button class="text-button" data-go-view="inventario" type="button">Ver inventario →</button></div><div id="dashboard-alert-list"></div></section><section class="dashboard-shortcuts"><p class="eyebrow">ACCESO RÁPIDO</p><h4>¿Qué necesitas hacer?</h4><button data-go-view="ventas" type="button"><span>▣</span><span>Nueva venta<small>Buscar productos y atender</small></span><b>→</b></button><button data-go-view="inventario" type="button"><span>▤</span><span>Consultar inventario<small>Revisar stock y vencimientos</small></span><b>→</b></button><button class="admin-only" data-go-view="compras" type="button"><span>⇧</span><span>Registrar compra<small>Ingresar productos recibidos</small></span><b>→</b></button></section></div>
+      </section>
+      <section id="view-ventas" class="view">
+        <div class="sales-layout">
+          <div class="catalog-pane">
+            <div class="section-heading"><div><p class="eyebrow">PUNTO DE VENTA</p><h3>Busca un producto</h3></div><span class="quiet-tag"><span class="live-dot"></span> Stock en vivo</span></div>
+            <label class="search-box"><span>⌕</span><input id="product-search" type="search" placeholder="Nombre o código de producto" autocomplete="off"><kbd>Buscar</kbd></label>
+            <div class="category-row" id="category-row"></div>
+            <div id="product-grid" class="product-grid"></div>
+          </div>
+          <aside class="cart-pane">
+            <div class="cart-heading"><div><p class="eyebrow">ATENCIÓN</p><h3>Venta actual</h3></div><button id="clear-cart" class="text-button" type="button">Vaciar</button></div>
+            <label class="compact-label">Cliente <select id="sale-customer"><option value="">Venta sin cliente</option></select></label>
+            <button id="new-customer-toggle" class="text-button customer-add" type="button">+ Registrar cliente nuevo</button>
+            <form id="inline-customer-form" class="inline-form hidden">
+              <input name="nombre" placeholder="Nombre del cliente" required maxlength="120">
+              <div class="inline-fields"><input name="documento" placeholder="Documento (opcional)" maxlength="20"><input name="telefono" placeholder="Teléfono" maxlength="30"></div>
+              <div><button class="button primary small-button" type="submit">Guardar cliente</button><button id="cancel-customer" class="button ghost small-button" type="button">Cancelar</button></div>
+            </form>
+            <div id="cart-items" class="cart-items"><div class="empty-state"><span class="empty-icon">＋</span><p>Agrega productos para comenzar</p><small>El stock se actualizará al confirmar la venta.</small></div></div>
+            <div class="cart-bottom"><div class="total-row"><span>Total</span><strong id="cart-total">S/ 0.00</strong></div><button id="complete-sale" class="button primary full" type="button" disabled>Confirmar venta <span>→</span></button><p class="secure-note">La venta descuenta el stock al confirmarse.</p></div>
+          </aside>
+        </div>
+      </section>
+      <section id="view-historial" class="view">
+        <div class="section-heading"><div><p class="eyebrow">HISTORIAL DE OPERACIONES</p><h3>Ventas realizadas</h3></div></div>
+        <label class="search-box table-search"><span>⌕</span><input id="sales-search" type="search" placeholder="Buscar por número de venta o cliente" autocomplete="off"><kbd>Ventas</kbd></label>
+        <div class="table-wrap"><table class="sales-history-table"><thead><tr><th>Número</th><th>Fecha</th><th>Cliente</th><th>Productos</th><th>Atendió</th><th>Total</th><th>Recibo</th></tr></thead><tbody id="sales-body"></tbody></table></div>
+      </section>
+      <section id="view-inventario" class="view">
+        <div class="section-heading"><div><p class="eyebrow">CONTROL DE EXISTENCIAS</p><h3>Inventario</h3></div><button id="new-product-button" class="button primary admin-only" type="button">+ Nuevo producto</button></div>
+        <div id="alert-summary" class="alert-summary"></div>
+        <label class="search-box table-search"><span>⌕</span><input id="inventory-search" type="search" placeholder="Buscar por nombre o código"><kbd>Inventario</kbd></label>
+        <div class="table-wrap"><table><thead><tr><th>Producto</th><th>Código</th><th>Categoría</th><th>Stock</th><th>Precio</th><th>Vencimiento</th><th>Estado</th><th class="admin-only">Acciones</th></tr></thead><tbody id="inventory-body"></tbody></table></div>
+      </section>
+      <section id="view-clientes" class="view">
+        <div class="section-heading"><div><p class="eyebrow">ATENCIÓN Y SEGUIMIENTO</p><h3>Clientes</h3></div><button id="new-customer-button" class="button primary" type="button">+ Nuevo cliente</button></div>
+        <label class="search-box table-search"><span>⌕</span><input id="customer-search" type="search" placeholder="Buscar cliente por nombre o documento"></label>
+        <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Documento</th><th>Teléfono</th><th>Correo</th></tr></thead><tbody id="customers-body"></tbody></table></div>
+      </section>
+      <section id="view-compras" class="view">
+        <div class="section-heading"><div><p class="eyebrow">ABASTECIMIENTO</p><h3>Registrar compra</h3></div></div>
+        <form id="purchase-form" class="management-form">
+          <label>Proveedor<select name="proveedor_id" id="purchase-provider" required><option value="">Selecciona proveedor</option></select></label>
+          <label>Producto<select name="producto_id" id="purchase-product" required><option value="">Selecciona producto</option></select></label>
+          <label>Cantidad<input name="cantidad" type="number" min="1" value="1" required></label>
+          <label>Costo unitario (S/)<input name="costo_unitario" type="number" min="0" step="0.01" required></label>
+          <button class="button primary" type="submit">Registrar compra y actualizar stock</button>
+        </form>
+        <p class="form-hint">Cada compra queda registrada y suma unidades al inventario dentro de una transacción.</p>
+      </section>
+      <section id="view-proveedores" class="view">
+        <div class="section-heading"><div><p class="eyebrow">RED DE ABASTECIMIENTO</p><h3>Proveedores</h3></div><button id="new-provider-button" class="button primary" type="button">+ Nuevo proveedor</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Proveedor</th><th>RUC</th><th>Teléfono</th><th>Correo</th><th>Dirección</th></tr></thead><tbody id="providers-body"></tbody></table></div>
+      </section>
+      <section id="view-reportes" class="view">
+        <div class="section-heading"><div><p class="eyebrow">RESUMEN DEL NEGOCIO</p><h3>Reportes</h3></div></div>
+        <div id="report-cards" class="report-cards"></div>
+        <div class="report-columns"><div class="report-block"><h4>Más vendidos · últimos 30 días</h4><div id="best-sellers"></div></div><div class="report-block"><h4>Ventas · últimos 7 días</h4><div id="seven-days"></div></div></div>
+      </section>
+      <section id="view-usuarios" class="view">
+        <div class="section-heading"><div><p class="eyebrow">ACCESOS AL SISTEMA</p><h3>Usuarios</h3></div><button id="new-user-button" class="button primary" type="button">+ Crear usuario</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="users-body"></tbody></table></div>
+      </section>
+    </section>
+  </div>
+
+  <dialog id="product-dialog" class="modal"><form id="product-form" method="dialog"><div class="modal-heading"><div><p class="eyebrow">CATÁLOGO</p><h3 id="product-modal-title">Nuevo producto</h3></div><button class="icon-button close-dialog" type="button" aria-label="Cerrar">×</button></div><input name="id" type="hidden"><div class="form-grid">
+    <label>Nombre<input name="nombre" maxlength="140" required></label><label>Código<input name="codigo" maxlength="40" required></label><label>Categoría<input name="categoria" maxlength="80" required></label><label>Precio de venta (S/)<input name="precio" type="number" min="0.01" step="0.01" required></label><label>Costo (S/)<input name="costo" type="number" min="0" step="0.01" value="0" required></label><label>Stock inicial<input name="stock" type="number" min="0" value="0"></label><label>Stock mínimo<input name="stock_minimo" type="number" min="0" value="5" required></label><label>Lote<input name="lote" maxlength="50" required></label><label>Fecha de vencimiento<input name="fecha_vencimiento" type="date" required></label><label>Proveedor<select name="proveedor_id"><option value="">Sin proveedor</option></select></label><label class="image-upload-field">Imagen del producto<input name="imagen" type="file" accept="image/jpeg,image/png,image/webp"><small>JPG, PNG o WebP · máximo 2 MB</small></label><div id="product-image-preview-wrap" class="product-image-preview hidden"><img id="product-image-preview" alt="Vista previa de la imagen del producto"><span>Vista previa</span></div>
+  </div><div class="modal-actions"><button class="button ghost close-dialog" type="button">Cancelar</button><button class="button primary" type="submit">Guardar producto</button></div></form></dialog>
+  <dialog id="product-detail-dialog" class="product-detail-dialog"><div id="product-detail-content"></div><div class="product-detail-actions"><button class="button ghost close-dialog" type="button">Cerrar</button><button id="detail-add-product" class="button primary" type="button">Agregar a la venta</button></div></dialog>
+  <dialog id="generic-dialog" class="modal"><form id="generic-form" method="dialog"><div class="modal-heading"><div><p class="eyebrow" id="generic-eyebrow">REGISTRO</p><h3 id="generic-title">Nuevo registro</h3></div><button class="icon-button close-dialog" type="button" aria-label="Cerrar">×</button></div><div id="generic-fields" class="form-grid"></div><div class="modal-actions"><button class="button ghost close-dialog" type="button">Cancelar</button><button class="button primary" type="submit">Guardar</button></div></form></dialog>
+  <dialog id="receipt-dialog" class="modal receipt-modal"><div id="receipt-content"></div><div class="modal-actions no-print"><button class="button ghost close-dialog" type="button">Cerrar</button><button id="print-receipt" class="button primary" type="button">Imprimir comprobante</button></div></dialog>
+  <script src="/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+node_modules/
+public/uploads/products/
+.env
+.env.local
+*.log
+.DS_Store
